@@ -5,27 +5,43 @@ const desktopMenu = document.querySelector('.desktop-menu')
 const mobileMenu = document.querySelector('.mobile-menu')
 const burgerMenu = document.querySelector('.menu')
 const carritoIcon = document.querySelector('.navbar-shopping-cart')
-const productDetail = document.querySelector('.product-detail')
+const products = document.querySelector('.product')
 const cardsContainer = document.querySelector('.cards-container')
+const productDetail = document.querySelector('.product-detail')
+const productDetailClose = document.querySelector('.product-detail-close')
 
 const showDesktopMenu = () => {
-    productDetail.classList.add('product-detail-inactive')
+    products.classList.add('product-inactive')
     desktopMenu.classList.toggle('profile-inactive')
+    productDetail.classList.add('product-detail-inactive')
 }
 navEmail.addEventListener('click', showDesktopMenu)
 
-const showProductDetail = () => {
+const showProducts = () => {
     desktopMenu.classList.add('profile-inactive')
-    productDetail.classList.toggle('product-detail-inactive')
+    products.classList.toggle('product-inactive')
     mobileMenu.classList.add('mobile-inactive')
+    productDetail.classList.add('product-detail-inactive')
 }
-carritoIcon.addEventListener('click', showProductDetail)
+carritoIcon.addEventListener('click', showProducts)
 
 const showMobileMenu = () => {
-    productDetail.classList.add('product-detail-inactive')
+    products.classList.add('product-inactive')
     mobileMenu.classList.toggle('mobile-inactive')
+    productDetail.classList.add('product-detail-inactive')
 }
 burgerMenu.addEventListener('click', showMobileMenu)
+
+const showProductDetail = () => {
+    productDetail.classList.remove('product-detail-inactive')
+    products.classList.add('product-inactive')
+    mobileMenu.classList.add('mobile-inactive')
+    desktopMenu.classList.add('profile-inactive')
+}
+
+const closeProductDetail = () => {
+    productDetail.classList.add('product-detail-inactive')
+}
 
 
 const productList = []
@@ -36,7 +52,7 @@ productList.push({
 });
 productList.push({
     Name: 'Bike',
-    Price: 120,
+    Price: 140,
     Image: 'https://images.pexels.com/photos/276517/pexels-photo-276517.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
 });
 productList.push({
@@ -93,8 +109,8 @@ const renderProducts = (arr) => {
         const productImg = document.createElement('img')
         productImg.setAttribute('src', product.Image)
         
-        const productInfo = document.createElement('div')
-        productInfo.classList.add('product-info')
+        const productInfoList = document.createElement('div')
+        productInfoList.classList.add('product-info-list')
         
         const productInfoDiv = document.createElement('div')
         
@@ -110,10 +126,11 @@ const renderProducts = (arr) => {
         
         productInfoFigure.appendChild(productImgCart)
         productInfoDiv.append(productPrice, productName)
-        productInfo.append(productInfoDiv, productInfoFigure)
-        productCard.append(productImg, productInfo)
+        productInfoList.append(productInfoDiv, productInfoFigure)
+        productCard.append(productImg, productInfoList)
         cardsContainer.appendChild(productCard)
-    
+        productCard.addEventListener('click', showProductDetail)
+        productDetailClose.addEventListener('click', closeProductDetail)
     }
 }
 renderProducts(productList)
